@@ -47,7 +47,6 @@ namespace dotnet_calculator.Controllers
                     operationArr.Add(item.value.ToString());
                     startIndex = item.i + 1;
                 }
-                System.Diagnostics.Debug.WriteLine(item);
             }
             operationArr.Add(operation.Substring(startIndex, operation.Length - startIndex));
 
@@ -71,15 +70,23 @@ namespace dotnet_calculator.Controllers
 
                     if (indexDivide >=0 && (indexDivide < indexMultiply || indexMultiply < 0))
                     {
-                        var indexOfSymbol = indexDivide;
-                        int left = Int32.Parse(operationArr[indexOfSymbol - 1]);
-                        int right = Int32.Parse(operationArr[indexOfSymbol + 1]);
+                        try
+                        {
+                            var indexOfSymbol = indexDivide;
+                            int left = Int32.Parse(operationArr[indexOfSymbol - 1]);
+                            int right = Int32.Parse(operationArr[indexOfSymbol + 1]);
 
-                        var ans = left / right;
-                        operationArr.RemoveRange(indexOfSymbol - 1, 3);
-                        operationArr.Insert(indexOfSymbol - 1, ans.ToString());
+                            var ans = left / right;
+                            operationArr.RemoveRange(indexOfSymbol - 1, 3);
+                            operationArr.Insert(indexOfSymbol - 1, ans.ToString());
 
-                        return Calculations(operationArr);
+                            return Calculations(operationArr);
+                        } 
+                        catch 
+                        {
+                            operationArr = new List<string> { "error" };
+                            return operationArr;
+                        }
                     }
 
                     if (indexMultiply >= 0 && (indexMultiply < indexDivide || indexDivide < 0))

@@ -1,5 +1,4 @@
-﻿@model List<dotnet_calculator.Models.Items>
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 <div>
@@ -18,11 +17,13 @@
     <script type="text/javascript">
         function calculate() {
             var operation = document.getElementById('input-operation').value;
+            var apiKey = 'da07c455-03c6-460f-b657-f70365f9e49f';
 
             fetch('test/Calculate', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': apiKey
                 },
                 body: JSON.stringify(operation)
             })

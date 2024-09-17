@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using dotnet_calculator;
+using dotnet_calculator.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/test"), appBuilder =>
+{
+    appBuilder.UseMiddleware<ApiKeyMiddleware>();
+});
 
 app.UseAuthorization();
 
