@@ -1,0 +1,35 @@
+﻿@model List<dotnet_calculator.Models.Items>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div>
+    <div>
+        <span>Enter a math operation:</span>
+        <input type="text" id="input-operation" />
+        <button onclick="calculate()">Calculate</button>
+    </div>
+    <div>
+        <span>Output: </span>
+        <span id="output"></span>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function calculate() {
+            var operation = document.getElementById('input-operation').value;
+
+            fetch('test/Calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(operation)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    document.getElementById('output').innerHTML = result.ans;
+                });
+        }                
+    </script>
+}
